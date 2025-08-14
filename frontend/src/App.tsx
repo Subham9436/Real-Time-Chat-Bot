@@ -1,26 +1,50 @@
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/navbar";
-import { Home } from "./components/Home";
-import { Signup } from "./components/signup";
-import { Signin } from "./components/signin";
-import gsap from "gsap";
-import { ScrollTrigger, SplitText } from "gsap/all";
-
-gsap.registerPlugin(ScrollTrigger, SplitText);
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { Signup } from "./pages/Signup";
+import { Settings } from "./pages/Settings";
+import { Profile } from "./pages/Profile";
+import { useAuthStore } from "./store/authstore";
+import { useEffect } from "react";
+import { Loader } from "lucide-react";
 
 function App() {
+  const { authUser, checkAuth,isCheckingauthUser } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+  console.log(authUser);
+
+  if(isCheckingauthUser && !authUser){
+    return <div className="flex-center h-screen">
+      <Loader className="size-10 animate-spin"></Loader>
+    </div>
+  }
   return (
-    <main>
+    <div>
       <Navbar />
-      <div className="pt-60 px-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-        </Routes>
-      </div>
-    </main>
+      <Routes>
+        <Route
+          path="/"
+          element={authUser ? <Home /> : <Navigate to="/login"></Navigate>}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <Login /> : <Navigate to="/"></Navigate>}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <Signup /> : <Navigate to="/"></Navigate>}
+        />
+        <Route path="/settings" element={<Settings />} />
+        <Route
+          path="/profilepage"
+          element={authUser ? <Profile /> : <Navigate to="/login"></Navigate>}
+        />
+      </Routes>
+    </div>
   );
 }
 

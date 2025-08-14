@@ -1,58 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
-
 @import "tailwindcss";
+@plugin "daisyui";
 
-@font-face {
-  font-family: "Modern Negra";
-  src: url("/fonts/Modern Negra Demo.ttf") format("truetype");
-}
-@theme {
-  --color-yellow: #e7d393;
-  --color-white-100: #efefef;
-  --font-sans: "Mona Sans", sans-serif;
-  --font-modern-negra: "Modern Negra", sans-serif;
-  --font-serif: "DM Serif Text", serif;
-}
-html,
-body {
-  width: 100%;
-  background-color: black;
-  color: white;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-@utility flex-center {
-  @apply flex justify-center items-center;
-}
-@layer components {
-  main {
-    @apply w-full overflow-x-hidden;
+.flex-center {
+    @apply flex justify-center items-center;
   }
-
-  nav {
-    @apply fixed z-50 w-full;
-
-    div {
-      @apply flex justify-between p-2 md:flex-row flex-col items-center;
-    }
-
-    p {
-      @apply font-modern-negra text-4xl -mb-2;
-    }
-
-    a {
-      @apply cursor-pointer text-nowrap md:text-base text-sm;
-    }
-    h3 {
-      @apply text-2xl -mb-2;
-    }
-
-    ul {
-      @apply flex-center lg:gap-12 gap-7;
-    }
-  }
-}
-p {
-      @apply font-modern-negra -mb-2;
-    }
