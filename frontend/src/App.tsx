@@ -1,27 +1,30 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import { Settings } from "./pages/Settings";
-import { Profile } from "./pages/Profile";
+import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authstore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { authUser, checkAuth,isCheckingauthUser } = useAuthStore();
+  const { authUser, checkAuth, isCheckingauthUser } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, []);
-  console.log(authUser);
 
-  if(isCheckingauthUser && !authUser){
-    return <div className="flex-center h-screen">
-      <Loader className="size-10 animate-spin"></Loader>
-    </div>
+  if (isCheckingauthUser && !authUser) {
+    return (
+      <div className="flex-center h-screen">
+        <Loader className="size-10 animate-spin"></Loader>
+      </div>
+    );
   }
+
   return (
     <div>
       <Navbar />
@@ -40,10 +43,11 @@ function App() {
         />
         <Route path="/settings" element={<Settings />} />
         <Route
-          path="/profilepage"
+          path="/profile"
           element={authUser ? <Profile /> : <Navigate to="/login"></Navigate>}
         />
       </Routes>
+      <Toaster />
     </div>
   );
 }
