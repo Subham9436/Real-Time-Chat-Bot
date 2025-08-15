@@ -8,7 +8,7 @@ interface AuthUser {
   fname: string;
   lname: string;
   password: string;
-  profilePic: string;
+  profilepic: string;
   createdAt: string;
 }
 interface SignupData {
@@ -22,7 +22,7 @@ interface SigninData {
   password: string;
 }
 interface UpdatedPic {
-  profilePic: string;
+  profilepic: string;
 }
 interface AuthStore {
   authUser: AuthUser | null;
@@ -44,6 +44,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isSigningUp: false,
   isUpdatingProfile: false,
   isCheckingauthUser: true,
+  onlineUsers: [],
 
   checkAuth: async () => {
     try {

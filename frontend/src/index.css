@@ -1,5 +1,15 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: all;
+}
+
+html,
+body {
+  width: 100dvw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: "Mona Sans", sans-serif;
+}
 
 @layer utilities {
   .flex-center {

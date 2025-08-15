@@ -3,15 +3,17 @@ import { Navbar } from "./components/navbar";
 import { Home } from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { Settings } from "./pages/Settings";
+import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import { useAuthStore } from "./store/authstore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from "./store/themestore";
 
 function App() {
   const { authUser, checkAuth, isCheckingauthUser } = useAuthStore();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
@@ -26,7 +28,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div data-theme={theme}>
       <Navbar />
       <Routes>
         <Route
