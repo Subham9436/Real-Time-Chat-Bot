@@ -15,7 +15,7 @@ interface ChatUser {
   username: string;
   fname: string;
   lname: string;
-  profilePic?: string;
+  profilepic?: string;
 }
 
 type UserId = number | string;
@@ -30,6 +30,7 @@ interface ChatStore {
   getUsers: () => Promise<void>;
   getMessages: (userId: UserId) => Promise<void>;
   sendMessage: (messageData: { content: string }) => Promise<void>;
+    setSelectedUser: (selectedUser:ChatUser) => void
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -77,4 +78,5 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       toast.error("Error Sending Message");
     }
   },
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));

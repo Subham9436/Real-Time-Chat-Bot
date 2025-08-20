@@ -30,6 +30,7 @@ interface AuthStore {
   isLoggingin: boolean;
   isUpdatingProfile: boolean;
   isCheckingauthUser: boolean;
+  onlineUsers: AuthUser[];
 
   checkAuth: () => Promise<void>;
   signup: (data: SignupData) => Promise<void>;
@@ -61,7 +62,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   signup: async (data: SignupData) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/user/signup", data);
+      const res = await axiosInstance.post<AuthUser>("/user/signup", data);
       set({ authUser: res.data });
       toast.success("Account created successfully");
     } catch (error) {
@@ -73,7 +74,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   login: async (data: SigninData) => {
     set({ isLoggingin: true });
     try {
-      const res = await axiosInstance.post("/user/signin", data);
+      const res = await axiosInstance.post<AuthUser>("/user/signin", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
     } catch (error) {
@@ -85,7 +86,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   logout: async () => {
     try {
-      await axiosInstance.post("/user/logout");
+      await axiosInstance.post<AuthUser>("/user/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
     } catch (error) {
@@ -95,7 +96,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
   updateProfile: async (data: UpdatedPic) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/user/updateProfilePic", data);
+      const res = await axiosInstance.put<AuthUser>(
+        "/user/updateProfilePic",
+        data
+      );
       set({ authUser: res.data });
       toast.success("Profile updated successfully");
     } catch (error) {
