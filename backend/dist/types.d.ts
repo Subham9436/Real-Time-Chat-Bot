@@ -4,5 +4,7 @@ export declare const UserCheck: z.ZodObject<{
     password: z.ZodString;
     fname: z.ZodString;
     lname: z.ZodString;
-}, z.z.core.$strip>;
-//# sourceMappingURL=types.d.ts.map
+}, z.core.$strip>;
+export declare const MessageCheck: z.ZodObject<{
+    text: z.ZodString;
+}, z.core.$strip>;

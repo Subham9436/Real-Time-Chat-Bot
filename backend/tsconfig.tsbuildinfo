@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/jwt.ts","./src/jwtpayload.ts","./src/types.ts","./src/ts-types/express.d.ts","./src/ts-types/types.tstypes.ts","./src/middlewares/auth.ts","./src/routes/user.ts"],"version":"5.8.3"}
+{"root":["./src/cloudinary.ts","./src/index.ts","./src/jwt.ts","./src/jwtpayload.ts","./src/types.ts","./src/middlewares/auth.ts","./src/routes/message.routes.ts","./src/routes/userroutes.routes.ts","./src/types/express.d.ts"],"version":"5.8.3"}

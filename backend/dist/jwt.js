@@ -1,45 +1,52 @@
-import jwt from "jsonwebtoken";
-const JWTPass = process.env.JWTPASS || "";
-export function SignJwt(username, id, res) {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SignJWT = SignJWT;
+exports.Verify = Verify;
+exports.Decode = Decode;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const JWTPass = process.env.JWTPass || "";
+function SignJWT(username, id, res) {
     try {
-        const isemailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!isemailRegex.test(username)) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(username)) {
             return null;
         }
-        const payload = { username, id };
-        const token = jwt.sign(payload, JWTPass, { expiresIn: "7d" });
-        res.cookie("Bearer", token, {
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            httpOnly: true,
-            sameSite: "strict",
+        const payLoad = { username, id };
+        const token = jsonwebtoken_1.default.sign(payLoad, JWTPass, { expiresIn: "7d" });
+        res.cookie("cookie", token, {
+            maxAge: 7 * 24 * 60 * 60 * 1000, //Miliseconds,
+            httpOnly: true, //prevents cross-site XSS scripting attacks
+            sameSite: "strict", // prevents CSRF attacks cross-site forgery attacks
         });
     }
-    catch (err) {
-        console.log("Error generating token", err);
-        res.status(500).json("Internal server error");
+    catch (error) {
+        console.log("error generating token", error);
+        throw error;
     }
 }
-export function Verify(token) {
+function Verify(token) {
     try {
-        jwt.verify(token, JWTPass);
+        jsonwebtoken_1.default.verify(token, JWTPass);
         return true;
     }
     catch (err) {
-        console.log("Error verifying token", err);
+        console.log("Error Verifying Token", err);
         throw err;
     }
 }
-export function Decode(token) {
+function Decode(token) {
     try {
-        const decode = jwt.decode(token);
-        if (!decode || typeof decode === "string") {
+        const decoded = jsonwebtoken_1.default.decode(token);
+        if (!decoded || typeof decoded === "string") {
             return null;
         }
-        return decode;
+        return decoded;
     }
     catch (err) {
-        console.log("Error decoding token", err);
-        throw err;
+        console.log("error decoding token", err);
+        return null;
     }
 }
-//# sourceMappingURL=jwt.js.map

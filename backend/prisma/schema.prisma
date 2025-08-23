@@ -14,24 +14,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
+model Users{
   id Int @id @default(autoincrement())
   username String @unique
   password String @unique
   fname String
   lname String
-  profilePic String?
+  profilepic String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  senderMessages Messages[]@relation("SendersMsg")
-  receiversMessages Messages[]@relation("ReceiversMsg")
+   sentMessages     Messages[] @relation("SentMessages")
+  receivedMessages Messages[] @relation("ReceivedMessages")
 }
+
 model Messages{
   id Int @id @default(autoincrement())
-  image String?
-  text String?
-  sendersId Int
-  receiversId Int
-  sender User @relation("SendersMsg",fields: [sendersId],references: [id])
-  receiver User @relation("ReceiversMsg",fields: [receiversId],references: [id])
+  sendersId Int 
+  ReceiversId Int
+  Text String?
+  Image String?
+  createdAT DateTime @default(now())
+  sender   Users @relation("SentMessages", fields: [sendersId], references: [id])
+  receiver Users @relation("ReceivedMessages", fields: [ReceiversId], references: [id])
+
 }
