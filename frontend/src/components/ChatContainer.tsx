@@ -12,7 +12,13 @@ export function ChatContainer() {
     selectedUser,
   } = useChatStore();
   if (isMessagesLoading) {
-    return <MessageSkeleton />;
+    return (
+      <div className="flex-1 flex flex-col overflow-auto">
+        <ChatHeader />
+        <MessageSkeleton />
+        <MessageInput />
+      </div>
+    );
   }
 
   return (
@@ -20,11 +26,8 @@ export function ChatContainer() {
       <div>
         <ChatHeader />
       </div>
-      <div className=" h-104 mt-2">
-        Messages ......
-        
-      </div>
-      <div>
+      <div className="border h-100 mt-2">Messages ......</div>
+      <div className="">
         <MessageInput />
       </div>
     </div>

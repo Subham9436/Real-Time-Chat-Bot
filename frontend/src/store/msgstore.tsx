@@ -9,6 +9,10 @@ interface Message {
   content: string;
   createdAt: string;
 }
+interface messageData {
+  text: string | null;
+  image: string | null;
+}
 
 interface ChatUser {
   id: number;
@@ -29,7 +33,7 @@ interface ChatStore {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: UserId) => Promise<void>;
-  sendMessage: (messageData: { content: string }) => Promise<void>;
+  sendMessage: ({ text, image }: messageData) => Promise<void>;
   setSelectedUser: (selectedUser: ChatUser | null) => void;
 }
 
@@ -64,14 +68,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: async (messageData) => {
+  sendMessage: async ({ text, image }) => {
     const { selectedUser, messages } = get();
     if (!selectedUser) return;
 
     try {
       const res = await axiosInstance.post<Message>(
         `/messages/send/${selectedUser.id}`,
-        messageData
+        { text, image }
       );
       set({ messages: [...messages, res.data] });
     } catch (error) {
