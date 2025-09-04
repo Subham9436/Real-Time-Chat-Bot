@@ -20,7 +20,7 @@ const Sidebar = () => {
         onlineUsers.some((online) => online.id === user.id)
       )
     : users;
-  console.log(users);
+  
 
   if (isUsersLoading) return <SidebarSkeleton />;
 

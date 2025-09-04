@@ -71,9 +71,18 @@ messageRoutes.post("/send/:id", Authenticate, async function (req, res) {
         ReceiversId: receiversId,
         Image: imageURL,
       },
+      select: {
+        id: true,
+        sendersId: true,
+        ReceiversId: true,
+        Text: true,
+        Image: true,
+        createdAT: true,
+      },
     });
     //Real-time functionality goes here =>Socket.io
-    res.status(200).json(newMessages);
+   
+    res.status(201).json(newMessages);
   } catch (err) {
     console.log("error sending messages", err);
     res.status(500).json("Internal Server Error");

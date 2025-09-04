@@ -78,7 +78,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ authUser: res.data });
       toast.success("Logged in successfully");
     } catch (error) {
-      toast.error("Error Logging-In");
+      toast.error("Invalid Credentials");
     } finally {
       set({ isLoggingin: false });
     }

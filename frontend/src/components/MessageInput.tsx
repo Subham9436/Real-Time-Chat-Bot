@@ -51,7 +51,7 @@ export function MessageInput() {
   return (
     <div className="relative">
       {imagePreview && (
-        <div className="mb-3 flex items-center gap-2">
+        <div className="absolute -top-20  flex items-center gap-2">
           <div className="relative">
             <img
               src={imagePreview}

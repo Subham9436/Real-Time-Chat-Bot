@@ -4,9 +4,10 @@ import { axiosInstance } from "../axiosInstance";
 
 interface Message {
   id: number;
-  senderId: number;
-  receiverId: number;
-  content: string;
+  sendersId: number;
+  ReceiversId: number;
+  Text: string | null;
+  Image: string | null;
   createdAt: string;
 }
 interface messageData {
@@ -77,6 +78,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         `/messages/send/${selectedUser.id}`,
         { text, image }
       );
+
       set({ messages: [...messages, res.data] });
     } catch (error) {
       toast.error("Error Sending Message");
