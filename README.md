@@ -17,16 +17,14 @@ Supports text and image messages, user authentication, and persistent conversati
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Features
 
-- **Frontend:** Next.js (App Router), React, TailwindCSS
-- **State Management:** Zustand
-- **Backend / API:** Next.js API Routes
-- **Database ORM:** Prisma
-- **Authentication:** JWT + HttpOnly Cookies
-- **File Storage:** Cloudinary
-- **Notifications:** react-hot-toast
-
+- 🌟 Tech stack: PERN + Socket.io + TailwindCSS + Daisy UI + Prisma
+- 🎃 Authentication && Authorization with JWT
+- 👾 Real-time messaging with Socket.io
+- 🚀 Online user status
+- 👌 Global state management with Zustand
+- 🐞 Error handling both on the server and on the client
 ---
 
 
@@ -66,6 +64,7 @@ The app will be available at http://localhost:3000
 
 Add screenshots here once UI is finalized
 (Chat interface, login screen, message preview, etc.)
+
 
 
 
