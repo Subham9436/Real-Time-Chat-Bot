@@ -56,8 +56,13 @@ CLOUDINARY_CLOUD_NAME="your-cloud-name"
 CLOUDINARY_API_KEY="your-api-key"
 CLOUDINARY_API_SECRET="your-api-secret"
 ```
-### 4. Run the development server
+### 4. Run the development application
 ```bash
+# backend
+tsc -b
+node dist/index.js
+
+#frontend
 npm run dev
 ```
 The app will be available at http://localhost:3000
@@ -66,6 +71,7 @@ The app will be available at http://localhost:3000
 
 Add screenshots here once UI is finalized
 (Chat interface, login screen, message preview, etc.)
+
 
 
 
