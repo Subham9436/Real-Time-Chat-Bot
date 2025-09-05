@@ -14,6 +14,7 @@ const express_1 = require("express");
 const auth_1 = require("../middlewares/auth");
 const prisma_1 = require("../../generated/prisma");
 const cloudinary_1 = require("cloudinary");
+const socket_1 = require("../socket");
 exports.messageRoutes = (0, express_1.Router)();
 const prisma = new prisma_1.PrismaClient();
 exports.messageRoutes.get("/users", auth_1.Authenticate, function (req, res) {
@@ -95,6 +96,10 @@ exports.messageRoutes.post("/send/:id", auth_1.Authenticate, function (req, res)
                 },
             });
             //Real-time functionality goes here =>Socket.io
+            const receiverSocketId = (0, socket_1.getReceiverSocketId)(String(receiversId));
+            if (receiverSocketId) {
+                socket_1.socketServer.to(receiverSocketId).emit("newMessage", newMessages);
+            }
             res.status(201).json(newMessages);
         }
         catch (err) {

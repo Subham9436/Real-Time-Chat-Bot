@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Authenticate } from "../middlewares/auth";
 import { PrismaClient } from "../../generated/prisma";
 import { v2 as cloudinary } from "cloudinary";
+import { socketServer, getReceiverSocketId } from "../socket";
 export const messageRoutes = Router();
 
 interface Image {
@@ -81,6 +82,10 @@ messageRoutes.post("/send/:id", Authenticate, async function (req, res) {
       },
     });
     //Real-time functionality goes here =>Socket.io
+    const receiverSocketId = getReceiverSocketId(String(receiversId));
+    if (receiverSocketId) {
+      socketServer.to(receiverSocketId).emit("newMessage", newMessages);
+    }
    
     res.status(201).json(newMessages);
   } catch (err) {

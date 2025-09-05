@@ -4,9 +4,10 @@ import dotenv from "dotenv";
 import { userRoutes } from "./routes/userRoutes.routes";
 import cookieParser from "cookie-parser";
 import { messageRoutes } from "./routes/message.routes";
+import { app,server } from "./socket";
 
 dotenv.config();
-const app = express();
+
 const port = 5000;
 
 app.use(express.json({ limit: "10mb" }));
@@ -22,6 +23,6 @@ app.use(cookieParser());
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/messages", messageRoutes);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`The port is running on ${port}`);
 });

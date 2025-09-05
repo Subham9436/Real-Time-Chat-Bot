@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../axiosInstance";
 import toast from "react-hot-toast";
+import { io, Socket } from "socket.io-client";
 
 interface AuthUser {
   id: number;
@@ -30,27 +31,32 @@ interface AuthStore {
   isLoggingin: boolean;
   isUpdatingProfile: boolean;
   isCheckingauthUser: boolean;
-  onlineUsers: AuthUser[];
+  onlineUsers: Set<string>;
+  socket: Socket | null;
 
   checkAuth: () => Promise<void>;
   signup: (data: SignupData) => Promise<void>;
   login: (data: SigninData) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: UpdatedPic) => Promise<void>;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>((set, get) => ({
   authUser: null,
   isLoggingin: false,
   isSigningUp: false,
   isUpdatingProfile: false,
   isCheckingauthUser: true,
-  onlineUsers: [],
+  onlineUsers: new Set<string>(),
+  socket: null,
 
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get<AuthUser>("/user/check");
       set({ authUser: res.data });
+      get().connectSocket();
     } catch (err) {
       console.log("error authenticating ", err);
       set({ authUser: null });
@@ -65,6 +71,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const res = await axiosInstance.post<AuthUser>("/user/signup", data);
       set({ authUser: res.data });
       toast.success("Account created successfully");
+      get().connectSocket();
     } catch (error) {
       toast.error("User Already Exists");
     } finally {
@@ -77,6 +84,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const res = await axiosInstance.post<AuthUser>("/user/signin", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
+      get().connectSocket();
     } catch (error) {
       toast.error("Invalid Credentials");
     } finally {
@@ -89,6 +97,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       await axiosInstance.post<AuthUser>("/user/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
+      get().disconnectSocket();
     } catch (error) {
       toast.error("Error logging out");
     }
@@ -107,6 +116,31 @@ export const useAuthStore = create<AuthStore>((set) => ({
       toast.error("Error Updating Profile");
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+  connectSocket: () => {
+    const { authUser, socket } = get();
+    if (!authUser) return;
+
+    if (socket?.connected) return;
+
+    const newSocket: Socket = io("http://localhost:5000", {
+      query: {
+        userId: authUser.id,
+      },
+    });
+    newSocket.connect();
+    set({ socket: newSocket });
+
+    newSocket.on("getOnlineUsers", (userIds: string[]) => {
+      set({ onlineUsers: new Set(userIds) });
+    });
+  },
+  disconnectSocket: () => {
+    const socket = get().socket;
+    if (socket?.connected) {
+      socket.disconnect();
+      set({ socket: null });
     }
   },
 }));

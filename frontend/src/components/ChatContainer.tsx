@@ -6,9 +6,23 @@ import { MessageInput } from "./MessageInput";
 import MessageSkeleton from "./skeletons/message";
 
 export function ChatContainer() {
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
+  const { messages, getMessages, isMessagesLoading, selectedUser, subscribeToMessages,
+    unsubscribeFromMessages, } =
     useChatStore();
   const { authUser } = useAuthStore();
+  const messageEndRef =  (node: HTMLDivElement) => {
+    if (node) {
+      node.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    subscribeToMessages();
+    return () => {
+      unsubscribeFromMessages();
+    };
+  }, [subscribeToMessages, unsubscribeFromMessages]);
+
   useEffect(() => {
     if (!selectedUser) {
       return;
@@ -38,6 +52,7 @@ export function ChatContainer() {
             className={`chat ${
               message.sendersId === authUser?.id ? "chat-end" : "chat-start"
             }`}
+             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
@@ -53,7 +68,10 @@ export function ChatContainer() {
             </div>
             <div className="chat-header mb-1">
               <time className="text-xs opacity-50 ml-1">
-                {message.createdAt}
+                {new Date(message.createdAT).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </time>
             </div>
             <div className="chat-bubble flex flex-col">

@@ -27,7 +27,7 @@ const ChatHeader = () => {
               {selectedUser.lname}
             </h3>
             <p className="text-sm text-base-content/70">
-              {onlineUsers.some((u) => u.id === selectedUser.id)
+              {onlineUsers.has(String(selectedUser.id))
                 ? "Online"
                 : "Offline"}
             </p>
