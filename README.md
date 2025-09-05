@@ -70,16 +70,17 @@ The app will be available at http://localhost:3000
 ## 📸 Screenshots
 
 ### 🔑 Login Page
-![Login Page](./public/images/Screenshot(109).png)
+![Login Page](./frontend/public/images/Screenshot(109).png/)
 
 ### 🏠 Chat Dashboard
-![Chat Dashboard](./public/images/Screenshot(105).png/)
+![Chat Dashboard](./frontend/public/images/Screenshot(105).png/)
 
 ### 👤 Profile Page
-![Profile Page](./public/images/Screenshot(108).png/)
+![Profile Page](./frontend/public/images/Screenshot(108).png/)
 
 ### 🌈 Themes
-![Settings Page](./public/images/Screenshot(107).png/)
+![Settings Page](./frontend/public/images/Screenshot(107).png/)
+
 
 
 
