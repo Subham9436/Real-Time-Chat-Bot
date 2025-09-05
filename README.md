@@ -13,7 +13,7 @@ Supports text and image messages, user authentication, and persistent conversati
 - 🖼️ **Image Attachments** (stored on Cloudinary)
 - 🪝 **State Management** using Zustand
 - 🗄️ **Database** with Prisma + PostgreSQL/MySQL
-- ⚡ **Real-time Ready** (Socket.io / WebSockets integration possible)
+- ⚡ **Real-time Ready** (Socket.io / WebSockets integration )
 
 ---
 
@@ -71,6 +71,7 @@ The app will be available at http://localhost:3000
 
 Add screenshots here once UI is finalized
 (Chat interface, login screen, message preview, etc.)
+
 
 
 
